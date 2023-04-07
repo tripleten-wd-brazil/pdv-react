@@ -13,7 +13,6 @@
 }
 
 .form__error {
-  display: none;
   color: var(--danger);
 }
 
