@@ -1,27 +1,34 @@
 import Modal from "../Modal";
 import Input from "../Input";
-import { useState, useRef } from "react";
+import { useState, useRef, useReducer, memo, useCallback } from "react";
 import ProductApi from "../../api/ProductApi";
+
+const MemoizedInput = memo(Input);
+
+const reducer = (state, action) => {
+  const { name, payload } = action;
+  return { ...state, [name]: payload };
+};
 
 export default function ProductForm({ visible, onClose, onSave }) {
   const formRef = useRef(null);
-
-  const [error, setError] = useState({
+  const initialErrors = {
     name: false,
     price: false,
     image: false,
-  });
+  };
+
+  const [errors, dispatch] = useReducer(reducer, initialErrors);
 
   const [disabled, setDisabled] = useState(true);
-  const handleValidation = (event) => {
+  const handleValidation = useCallback((event) => {
     const isEnabled = formRef?.current.checkValidity();
     setDisabled(!isEnabled);
-
-    setError({
-      ...error,
-      [event.target.name]: !event.target.validity.valid,
+    dispatch({
+      name: event.target.name,
+      payload: !event.target.validity.valid,
     });
-  };
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,30 +57,30 @@ export default function ProductForm({ visible, onClose, onSave }) {
           </button>
         </header>
         <form ref={formRef} className="form" noValidate onSubmit={handleSubmit}>
-          <Input
+          <MemoizedInput
             variant="image"
             onInput={handleValidation}
             label="Imagem do Produto"
             id="image"
-            error={error.image}
+            error={errors.image}
             errorMessage="Campo obrigatório"
             placeholder="Cole a URL da imagem aqui"
             type="url"
           />
-          <Input
+          <MemoizedInput
             onInput={handleValidation}
             label="Nome do Produto"
             id="name"
-            error={error.name}
+            error={errors.name}
             errorMessage="Campo obrigatório"
             placeholder="Digite o nome do produto"
             required
           />
-          <Input
+          <MemoizedInput
             onInput={handleValidation}
             label="Preço do Produto"
             id="price"
-            error={error.price}
+            error={errors.price}
             errorMessage="Campo obrigatório"
             placeholder="Digite o preço do produto"
             type="number"

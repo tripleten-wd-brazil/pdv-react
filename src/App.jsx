@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
 import Menu from "./components/Menu";
 import ProductCard from "./components/ProductCard";
-import ProductApi from "./api/ProductApi";
 import ProductForm from "./components/ProductForm";
+import { useProducts } from "./hooks/useProducts";
+import { useModal } from "./hooks/useModal";
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [isProductFormOpened, setIsProductFormOpened] = useState(false);
-  const productApi = new ProductApi();
-
-  useEffect(() => {
-    productApi.list().then((apiProducts) => setProducts(apiProducts));
-  }, []);
-
-  const handleProductFormClose = () => setIsProductFormOpened(false);
-
-  const handleProductSave = (product) => {
-    setProducts([...products, product]);
-  };
+  const { products, addProduct } = useProducts();
+  const {
+    isOpened: productModalOpened,
+    close: closeProductModal,
+    open: openProductModal,
+  } = useModal();
 
   return (
     <>
@@ -33,7 +26,7 @@ function App() {
             <div className="action-buttons">
               <button
                 className="button button_type_success"
-                onClick={() => setIsProductFormOpened(true)}
+                onClick={openProductModal}
               >
                 Adicionar item
               </button>
@@ -79,9 +72,9 @@ function App() {
         </button>
       </main>
       <ProductForm
-        visible={isProductFormOpened}
-        onClose={handleProductFormClose}
-        onSave={handleProductSave}
+        visible={productModalOpened}
+        onClose={closeProductModal}
+        onSave={addProduct}
       />
       {/* <Modal opened={isOpened}>
         <div className="modal__container">

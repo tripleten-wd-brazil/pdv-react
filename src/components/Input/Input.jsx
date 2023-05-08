@@ -1,11 +1,9 @@
-const Input = ({
-  variant,
-  label,
-  id,
-  error = false,
-  errorMessage,
-  ...props
-}) => {
+import { forwardRef } from "react";
+
+const Input = (
+  { variant, label, id, error = false, errorMessage, ...props },
+  ref
+) => {
   const variants = {
     default: "",
     image: "modal__input_image",
@@ -19,6 +17,7 @@ const Input = ({
         {label}
       </label>
       <input
+        ref={ref}
         name={id}
         id={id}
         className={`modal__input ${selectedVariant}`}
@@ -29,4 +28,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default forwardRef(Input);
