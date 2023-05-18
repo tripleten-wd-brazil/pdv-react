@@ -1,59 +1,60 @@
 import bebidasUrl from "./assets/images/bebidas.svg";
 import docesUrl from "./assets/images/doces.svg";
 import lanchesUrl from "./assets/images/lanches.svg";
+import MenuItem from "./components/MenuItem/MenuItem";
+import ProductCard from "./components/ProductCard/ProductCard";
+import OrderItem from "./components/OrderItem/OrderItem";
+import ProductApi from "./api/ProductApi";
+import { useState, useEffect } from "react";
+const productApi = new ProductApi();
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [orderItems, setOrderItems] = useState([]);
+
+  useEffect(() => {
+    productApi.list().then((productsApi) => {
+      setProducts(productsApi);
+    });
+  }, []);
+
+  const handleSelect = (orderItem) => {
+    console.log("Clicou");
+    setOrderItems([...orderItems, orderItem]);
+  };
+
   return (
     <div className="page">
       <nav className="menu">
         <ul className="menu__bar">
-          <li>
-            <button className="menu__item">
-              <img
-                className="menu__image"
-                src={bebidasUrl}
-                alt="Ícone de garrafa para opção do menu bebidas"
-              />
-              <span className="menu__paragraph">Bebidas</span>
-            </button>
-          </li>
-          <li>
-            <button className="menu__item">
-              <img
-                className="menu__image"
-                src={docesUrl}
-                alt="Ícone de bolo para opção do menu doces"
-              />
-              <span className="menu__paragraph">Doces</span>
-            </button>
-          </li>
-          <li>
-            <button className="menu__item">
-              <img
-                className="menu__image"
-                src={lanchesUrl}
-                alt="Ícone de batata frita para opção de menu lanches"
-              />
-              <span className="menu__paragraph">Lanches</span>
-            </button>
-          </li>
+          <MenuItem
+            src={bebidasUrl}
+            alt="Ícone de garrafa para opção do menu bebidas"
+            label={"Bebidas"}
+          />
+          <MenuItem
+            src={docesUrl}
+            alt="Ícone de bolo para opção do menu doces"
+            label={"Doces"}
+          />
+          <MenuItem
+            src={lanchesUrl}
+            alt="Ícone de batata frita para opção de menu lanches"
+            label={"Lanches"}
+          />
         </ul>
         <hr className="menu__ruler" />
       </nav>
       <main>
         <section>
           <ul className="products">
-            <template id="product-card">
-              <li>
-                <article className="product">
-                  <img className="product__image" alt="" />
-                  <p className="product__price"></p>
-                  <p className="product__name"></p>
-                  <p className="product__category"></p>
-                  <button className="product__button">Selecionar</button>
-                </article>
-              </li>
-            </template>
+            {products.map((productData) => (
+              <ProductCard
+                key={productData._id}
+                data={productData}
+                onSelect={handleSelect}
+              />
+            ))}
           </ul>
         </section>
         <button className="button button_add_item">Adicionar Item</button>
@@ -61,18 +62,9 @@ function App() {
           <h2>Resumo da Venda</h2>
           <p>José Costa</p>
           <ul className="order__list">
-            <template id="template-item">
-              <li className="order__item item">
-                <div>
-                  <p className="item__name"></p>
-                  <p className="item__price"></p>
-                </div>
-                <button>-</button>
-                <p className="item__quantity">1</p>
-                <button>+</button>
-                <p className="item__total"></p>
-              </li>
-            </template>
+            {orderItems.map((orderItemData) => (
+              <OrderItem key={orderItemData._id} data={orderItemData} />
+            ))}
           </ul>
           <div>
             <p>Sub Total</p>

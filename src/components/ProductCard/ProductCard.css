@@ -1,0 +1,13 @@
+.product {
+  list-style: none;
+}
+
+.product__container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  padding: 16px;
+  border-radius: 8px;
+}
