@@ -6,11 +6,13 @@ import ProductCard from "./components/ProductCard/ProductCard";
 import OrderItem from "./components/OrderItem/OrderItem";
 import ProductApi from "./api/ProductApi";
 import { useState, useEffect } from "react";
+import ProductForm from "./components/ProductForm/ProductForm";
 const productApi = new ProductApi();
 
 function App() {
   const [products, setProducts] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     productApi.list().then((productsApi) => {
@@ -22,6 +24,15 @@ function App() {
     console.log("Clicou");
     setOrderItems([...orderItems, orderItem]);
   };
+
+  const handleSaveProduct = (data) => {
+    productApi.create(data).then((createdProduct) => {
+      setProducts([createdProduct, ...products]);
+    });
+  };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
 
   return (
     <div className="page">
@@ -57,7 +68,9 @@ function App() {
             ))}
           </ul>
         </section>
-        <button className="button button_add_item">Adicionar Item</button>
+        <button onClick={handleOpenModal} className="button">
+          Adicionar Item
+        </button>
         <aside className="order">
           <h2>Resumo da Venda</h2>
           <p>José Costa</p>
@@ -80,61 +93,11 @@ function App() {
           </div>
         </aside>
       </main>
-      <div className="modal modal_add_item">
-        <div className="modal__container">
-          <button className="button button_close_modal">X</button>
-          <form name="form_add_item" className="form form_add_item" noValidate>
-            <div>
-              <label htmlFor="image">Imagem do Produto</label>
-              <input
-                className="form__control"
-                id="image"
-                name="image"
-                type="url"
-              />
-              <p className="error">Insira uma URL válida</p>
-            </div>
-            <div>
-              <label htmlFor="name">Nome do Produto</label>
-              <input
-                className="form__control"
-                id="name"
-                name="name"
-                type="text"
-                minLength="2"
-                required
-              />
-              <p className="error">Campo obrigatório</p>
-            </div>
-            <div>
-              <label htmlFor="price">Valor do Produto</label>
-              <input
-                className="form__control"
-                id="price"
-                name="price"
-                type="number"
-                required
-                step="0.01"
-              />
-              <p className="error">Campo obrigatório</p>
-            </div>
-            <div>
-              <label htmlFor="category">Categoria do Produto</label>
-              <select name="category" id="category">
-                <option value="Bebidas">Bebidas</option>
-                <option value="Doces">Doces</option>
-                <option value="Lanches">Lanches</option>
-              </select>
-            </div>
-            <button type="reset" className="button">
-              Cancelar
-            </button>
-            <button name="submit" className="button button_submit" disabled>
-              Salvar Produto
-            </button>
-          </form>
-        </div>
-      </div>
+      <ProductForm
+        isOpen={isModalOpen}
+        onSubmit={handleSaveProduct}
+        onClose={handleClose}
+      />
     </div>
   );
 }

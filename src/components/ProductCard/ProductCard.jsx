@@ -1,7 +1,7 @@
 import "./ProductCard.css";
 
 const ProductCard = ({ data, onSelect }) => {
-  const { name, price, image, _id } = data;
+  const { name, price, imageUrl, _id } = data;
 
   const handleClick = () => {
     onSelect({ name, price, _id });
@@ -10,7 +10,7 @@ const ProductCard = ({ data, onSelect }) => {
   return (
     <li className="product">
       <article className="product__container">
-        <img className="product__image" src={image} alt={name} />
+        <img className="product__image" src={imageUrl} alt={name} />
         <p className="product__price">{price}</p>
         <p className="product__name">{name}</p>
         <button onClick={handleClick} className="product__button">
