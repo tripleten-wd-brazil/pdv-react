@@ -1,11 +1,14 @@
-import Menu from "./components/Menu";
-import ProductCard from "./components/ProductCard";
-import ProductForm from "./components/ProductForm";
-import { useProducts } from "./hooks/useProducts";
-import { useModal } from "./hooks/useModal";
+import Menu from "../components/Menu";
+import ProductCard from "../components/ProductCard";
+import ProductForm from "../components/ProductForm";
+import { useProducts } from "../hooks/useProducts";
+import { useModal } from "../hooks/useModal";
+import { useUser } from "../hooks/useUser";
 
-function App() {
-  const { products, addProduct } = useProducts();
+function Home() {
+  const { user } = useUser();
+  const { token } = user;
+  const { products, addProduct } = useProducts(token);
   const {
     isOpened: productModalOpened,
     close: closeProductModal,
@@ -95,4 +98,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

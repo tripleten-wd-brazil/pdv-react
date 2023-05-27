@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import ProductApi from "../api/ProductApi";
 
-export const useProducts = () => {
+export const useProducts = (token) => {
   const [products, setProducts] = useState([]);
-  const productApi = new ProductApi();
+  const productApi = new ProductApi(token);
 
   useEffect(() => {
     productApi.list().then((apiProducts) => setProducts(apiProducts));

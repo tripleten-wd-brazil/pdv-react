@@ -1,0 +1,16 @@
+.login-form {
+  background-color: white;
+  padding: 24px;
+  margin: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error {
+  background-color: white;
+  color: red;
+  padding: 4px;
+  border-radius: 8px;
+}
