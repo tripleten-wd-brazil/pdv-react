@@ -4,14 +4,12 @@ export default class ProductApi {
   }
 
   list() {
-    return fetch(this._baseUrl)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .catch((error) => error);
+    return fetch(this._baseUrl).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("Network response was not ok.");
+    });
   }
 
   async create(product) {

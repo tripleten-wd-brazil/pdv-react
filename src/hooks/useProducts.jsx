@@ -6,9 +6,7 @@ export const useProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    productApi.list().then((productsApi) => {
-      setProducts(productsApi);
-    });
+    productApi.list().then(setProducts);
   }, []);
 
   const saveProduct = (productData) => {
