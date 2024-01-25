@@ -3,8 +3,17 @@ export default class ProductApi {
     this._baseUrl = `${import.meta.env.VITE_API_BASE_URL}/products`;
   }
 
+  _defaultHeaders() {
+    return {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    };
+  }
+
   list() {
-    return fetch(this._baseUrl).then((response) => {
+    return fetch(this._baseUrl, {
+      headers: this._defaultHeaders(),
+    }).then((response) => {
       if (response.ok) {
         return response.json();
       }
@@ -16,9 +25,7 @@ export default class ProductApi {
     const response = await fetch(this._baseUrl, {
       method: "POST",
       body: JSON.stringify(product),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: this._defaultHeaders(),
     });
     if (response.ok) {
       return response.json();

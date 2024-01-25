@@ -69,7 +69,7 @@ function Home({ products, onSaveProduct, onSelectProduct, orderItems }) {
           </div>
         </aside>
       </main>
-      <ProductForm isOpen={isOpen} onSubmit={onSaveProduct} onClose={close} />
+      <ProductForm isOpen={isOpen} onSave={onSaveProduct} onClose={close} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useProducts } from "./hooks/useProducts";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const { products, saveProduct } = useProducts();
@@ -25,12 +26,14 @@ function App() {
             <Register />
           </Route>
           <Route path="/">
-            <Home
-              products={products}
-              onSaveProduct={saveProduct}
-              onSelectProduct={handleSelect}
-              orderItems={orderItems}
-            />
+            <ProtectedRoute>
+              <Home
+                products={products}
+                onSaveProduct={saveProduct}
+                onSelectProduct={handleSelect}
+                orderItems={orderItems}
+              />
+            </ProtectedRoute>
           </Route>
         </Switch>
       </AuthProvider>
