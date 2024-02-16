@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Main } from "./components/Main";
+import { ImagePopup } from "./components/ImagePopup";
+import { EditProfilePopup } from "./components/EditProfilePopup";
+import { CurrentUserContext } from "./contexts/CurrentUserContext";
+import { api } from "./utils/api";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({ name: "", job: "" });
+
+  useEffect(() => {
+    api.getUserInfo().then(setCurrentUser);
+  }, []);
+
+  const handleCardImageClick = (card) => {
+    setSelectedCard(card);
+  };
+
+  const handleClickEditProfile = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  const closeAllPopups = () => {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setSelectedCard(null);
+  };
+
+  const handleUpdateUser = (userData) => {
+    api.setUserInfo(userData).then(setCurrentUser).then(closeAllPopups);
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Main
+          onCardImageClick={handleCardImageClick}
+          onClickEditProfile={handleClickEditProfile}
+        />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    </CurrentUserContext.Provider>
+  );
 }
 
-export default App
+export default App;
