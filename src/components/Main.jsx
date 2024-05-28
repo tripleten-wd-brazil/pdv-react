@@ -1,6 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
+import Header from "./Header";
 
-export function Main({ onEditProfileClick, isEditProfilePopupOpen }) {
+export function Main({ onEditProfileClick, isEditProfilePopupOpen, onClosePopup }) {
 
   return (
     <main className="container">
@@ -26,21 +27,7 @@ export function Main({ onEditProfileClick, isEditProfilePopupOpen }) {
           </li>
         </ul>
       </nav>
-      <div className="seller">
-        <article className="seller__card">
-          <figure>
-            <img src="./avatar_mock.png" alt="Seller avatar image" className="seller__avatar" />
-          </figure>
-          <div className="seller__data">
-            <h2 className="seller__name"></h2>
-            <h3 className="seller__job"></h3>
-          </div>
-          <button className="seller__edit" onClick={onEditProfileClick}>
-            <img src="./edit.svg" alt="Edit seller data" className="seller__edit-icon" />
-            <span className="seller__edit-label">Editar</span>
-          </button>
-        </article>
-      </div>
+      <Header onEditProfileClick={onEditProfileClick} />
       <ul className="products">
         <template id="product-card">
           <li className="product">
@@ -103,19 +90,6 @@ export function Main({ onEditProfileClick, isEditProfilePopupOpen }) {
           Finalizar
         </button>
       </aside>
-      <PopupWithForm name="edit_profile" title="Editar Perfil" isOpen={isEditProfilePopupOpen}>
-        <div className="form__control">
-          <label className="form__label" htmlFor="name">Nome:</label>
-          <input className="form__input form__input_name" name="name" id="name" required minLength="2" maxLength="40" />
-          <p className="form__error"></p>
-        </div>
-        <div className="form__control">
-          <label className="form__label" htmlFor="job">Posição:</label>
-          <input className="form__input form__input_job" id="job" name="job" required minLength="2" maxLength="40" />
-          <p className="form__error"></p>
-        </div>
-        <p className="form__error"></p>
-      </PopupWithForm>
     </main>
   )
 }

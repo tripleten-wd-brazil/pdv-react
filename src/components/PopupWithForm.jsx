@@ -1,4 +1,4 @@
-function PopupWithForm({ name, title, children, isOpen }) {
+function PopupWithForm({ name, title, children, isOpen, onClose }) {
   const cssIsOpened = isOpen ? 'popup_opened' : '';
 
   return (
@@ -6,7 +6,7 @@ function PopupWithForm({ name, title, children, isOpen }) {
       <article className="popup__container popup__container_product">
         <header className="popup__header">
           <h1 className="popup__title">{title}</h1>
-          <button className="popup__close-button">X</button>
+          <button onClick={onClose} className="popup__close-button">X</button>
         </header>
         <form className="form" noValidate name={name}>
           {children}
