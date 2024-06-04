@@ -1,7 +1,6 @@
-import PopupWithForm from "./PopupWithForm";
 import Header from "./Header";
 
-export function Main({ onEditProfileClick, isEditProfilePopupOpen, onClosePopup }) {
+export function Main({ onEditProfileClick, onProductPopupOpen }) {
 
   return (
     <main className="container">
@@ -44,7 +43,7 @@ export function Main({ onEditProfileClick, isEditProfilePopupOpen, onClosePopup 
       </ul>
       <div className="cta">
         <button className="button button_type_primary">Editar itens</button>
-        <button id="open-product-popup" className="button button_type_success">
+        <button onClick={onProductPopupOpen} id="open-product-popup" className="button button_type_success">
           Adicionar item
         </button>
       </div>

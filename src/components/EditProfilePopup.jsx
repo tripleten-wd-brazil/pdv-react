@@ -1,4 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
+import Input from "./Input";
 import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -25,39 +26,25 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       onClose={onClose}
       onSubmit={handleSubmit}
     >
-      <div className="form__control">
-        <label className="form__label" htmlFor="name">
-          Nome:
-        </label>
-        <input
-          className="form__input form__input_name"
-          name="name"
-          id="name"
-          required
-          minLength="2"
-          maxLength="40"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <p className="form__error"></p>
-      </div>
-      <div className="form__control">
-        <label className="form__label" htmlFor="job">
-          Posição:
-        </label>
-        <input
-          className="form__input form__input_job"
-          id="job"
-          name="job"
-          required
-          minLength="2"
-          maxLength="40"
-          value={job}
-          onChange={(e) => setJob(e.target.value)}
-        />
-        <p className="form__error"></p>
-      </div>
-      <p className="form__error"></p>
+      <Input
+        label="Nome"
+        name="name"
+        id="name"
+        minLength="2"
+        maxLength="40"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Input
+        label="Profissão"
+        id="job"
+        name="job"
+        required
+        minLength="2"
+        maxLength="40"
+        value={job}
+        onChange={(e) => setJob(e.target.value)}
+      />
     </PopupWithForm>
   );
 }

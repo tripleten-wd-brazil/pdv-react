@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
+import ProductPopup from './ProductPopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     name: "",
     job: "",
@@ -21,12 +23,9 @@ function App() {
       });
   }, []);
 
-  const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(true);
-  }
-
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
+    setIsProductPopupOpen(false);
   }
 
   const handleUpdateUser = (userData) => {
@@ -36,18 +35,32 @@ function App() {
       .catch(err => console.error(err));
   }
 
+  const handleProductPopupOpen = () => {
+    setIsProductPopupOpen(true);
+  }
+
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Main
-          onEditProfileClick={handleEditProfileClick}
-          isEditProfilePopupOpen={isEditProfilePopupOpen}
           onClosePopup={closeAllPopups}
+          onProductPopupOpen={handleProductPopupOpen}
+          onEditProfileClick={handleEditProfileClick}
+          isProductPopupOpen={isProductPopupOpen}
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+        />
+
+        <ProductPopup
+          isOpen={isProductPopupOpen}
+          onClose={closeAllPopups}
         />
       </div>
     </CurrentUserContext.Provider>
