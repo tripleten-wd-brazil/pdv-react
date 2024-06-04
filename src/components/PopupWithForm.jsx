@@ -1,4 +1,4 @@
-function PopupWithForm({ name, title, children, isOpen, onClose }) {
+function PopupWithForm({ name, title, children, isOpen, onClose, onSubmit }) {
   const cssIsOpened = isOpen ? 'popup_opened' : '';
 
   return (
@@ -8,7 +8,7 @@ function PopupWithForm({ name, title, children, isOpen, onClose }) {
           <h1 className="popup__title">{title}</h1>
           <button onClick={onClose} className="popup__close-button">X</button>
         </header>
-        <form className="form" noValidate name={name}>
+        <form onSubmit={onSubmit} className="form" noValidate name={name}>
           {children}
           <button name="button_submit" className="button button_type_success button_submit">
             Salvar

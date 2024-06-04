@@ -6,7 +6,10 @@ import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    job: "",
+  });
 
   useEffect(() => {
     api.getUserInfo()
@@ -26,6 +29,13 @@ function App() {
     setIsEditProfilePopupOpen(false);
   }
 
+  const handleUpdateUser = (userData) => {
+    api.patchUserInfo(userData)
+      .then((updatedUser) => setCurrentUser(updatedUser))
+      .then(() => closeAllPopups())
+      .catch(err => console.error(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -37,6 +47,7 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
       </div>
     </CurrentUserContext.Provider>
