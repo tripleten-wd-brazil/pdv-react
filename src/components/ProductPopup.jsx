@@ -1,6 +1,21 @@
 import PopupWithForm from "./PopupWithForm";
+import Input from "./Input";
+import { useRef } from "react";
 
-function ProductPopup({ isOpen, onClose, handleSubmit }) {
+function ProductPopup({ isOpen, onClose, onAddProduct }) {
+
+  const imageRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const product = Object.fromEntries(formData.entries());
+    const product2 = {
+      image: imageRef.current.value
+    }
+    onAddProduct(product2);
+  }
+
   return (
     <PopupWithForm
       name="add_product"
@@ -9,35 +24,27 @@ function ProductPopup({ isOpen, onClose, handleSubmit }) {
       onClose={onClose}
       onSubmit={handleSubmit}
     >
-      <div className="form__control">
-        <label className="form__label" htmlFor="name">
-          Nome:
-        </label>
-        <input
-          className="form__input"
-          name="name"
-          id="name"
-          required
-          minLength="2"
-          maxLength="40"
-        />
-        <p className="form__error"></p>
-      </div>
-      <div className="form__control">
-        <label className="form__label" htmlFor="job">
-          Posição:
-        </label>
-        <input
-          className="form__input form__input_job"
-          id="job"
-          name="job"
-          required
-          minLength="2"
-          maxLength="40"
-        />
-        <p className="form__error"></p>
-      </div>
-      <p className="form__error"></p>
+      <Input
+        label="Imagem"
+        id="image"
+        name="image"
+        type="url"
+        ref={imageRef}
+      />
+
+      <Input
+        label="Nome"
+        id="name"
+        name="name"
+        required
+      />
+      <Input
+        label="Preço"
+        id="price"
+        name="price"
+        type="number"
+        required
+      />
     </PopupWithForm>
   );
 }

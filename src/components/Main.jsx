@@ -1,26 +1,37 @@
 import Header from "./Header";
 
 export function Main({ onEditProfileClick, onProductPopupOpen }) {
-
   return (
     <main className="container">
       <nav className="categories">
         <ul className="categories__list">
           <li>
             <button className="categories__item">
-              <img className="categories__icon" src="./bebidas.svg" alt="Bebidas" />
+              <img
+                className="categories__icon"
+                src="./bebidas.svg"
+                alt="Bebidas"
+              />
               <span className="categories__text">Bebidas</span>
             </button>
           </li>
           <li>
             <button className="categories__item">
-              <img className="categories__icon" src="./doces.svg" alt="Bebidas" />
+              <img
+                className="categories__icon"
+                src="./doces.svg"
+                alt="Bebidas"
+              />
               <span className="categories__text">Doces</span>
             </button>
           </li>
           <li>
             <button className="categories__item">
-              <img className="categories__icon" src="./lanches.svg" alt="Bebidas" />
+              <img
+                className="categories__icon"
+                src="./lanches.svg"
+                alt="Bebidas"
+              />
               <span className="categories__text">Lanches</span>
             </button>
           </li>
@@ -43,7 +54,11 @@ export function Main({ onEditProfileClick, onProductPopupOpen }) {
       </ul>
       <div className="cta">
         <button className="button button_type_primary">Editar itens</button>
-        <button onClick={onProductPopupOpen} id="open-product-popup" className="button button_type_success">
+        <button
+          onClick={onProductPopupOpen}
+          id="open-product-popup"
+          className="button button_type_success"
+        >
           Adicionar item
         </button>
       </div>
@@ -82,15 +97,20 @@ export function Main({ onEditProfileClick, onProductPopupOpen }) {
           <div>
             <span className="order__total order__total-text-bold">R$ 0,00</span>
             <span className="order__total-text">R$ 0,00</span>
-            <span className="order__subtotal order__total-text-bold">R$ 0,00</span>
+            <span className="order__subtotal order__total-text-bold">
+              R$ 0,00
+            </span>
           </div>
         </div>
-        <button className="button button_type_success order__button" id="order__button">
+        <button
+          className="button button_type_success order__button"
+          id="order__button"
+        >
           Finalizar
         </button>
       </aside>
     </main>
-  )
+  );
 }
 
 export default Main;

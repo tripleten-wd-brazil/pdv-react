@@ -43,6 +43,10 @@ function App() {
     setIsEditProfilePopupOpen(true);
   }
 
+  const handleAddProduct = (product) => {
+    console.log('Product added', product);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -61,6 +65,7 @@ function App() {
         <ProductPopup
           isOpen={isProductPopupOpen}
           onClose={closeAllPopups}
+          onAddProduct={handleAddProduct}
         />
       </div>
     </CurrentUserContext.Provider>
