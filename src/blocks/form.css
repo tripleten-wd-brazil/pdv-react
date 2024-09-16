@@ -23,3 +23,8 @@
   border-radius: 8px;
   padding: 8px;
 }
+
+.form_login {
+  color: white;
+  padding: 24px;
+}
