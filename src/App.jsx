@@ -1,7 +1,17 @@
-import { useState } from "react";
 import Navigation from "./components/Navigation";
+import avatarMock from "./images/avatar_mock.png";
+import editIcon from "./images/edit.svg";
+import PopupWithForm from "./components/PopupWithForm";
+import { useState } from "react";
 
 function App() {
+  console.log("Hello world");
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
+
+  const handleSellerClick = function () {
+    setIsEditProfilePopupOpen(true);
+  };
+
   return (
     <div className="page">
       <main className="container">
@@ -10,7 +20,7 @@ function App() {
           <article className="seller__card">
             <figure>
               <img
-                src="<%=require('./images/avatar_mock.png')%>"
+                src={avatarMock}
                 alt="Seller avatar image"
                 className="seller__avatar"
               />
@@ -19,9 +29,9 @@ function App() {
               <h2 className="seller__name" />
               <h3 className="seller__job" />
             </div>
-            <button className="seller__edit">
+            <button className="seller__edit" onClick={handleSellerClick}>
               <img
-                src="<%=require('./images/edit.svg')%>"
+                src={editIcon}
                 alt="Edit seller data"
                 className="seller__edit-icon"
               />
@@ -72,75 +82,44 @@ function App() {
           </button>
         </aside>
       </main>
-      <div className="popup popup_edit_profile">
-        <article className="popup__container popup__container_product">
-          <header className="popup__header">
-            <h1 className="popup__title">Editar Perfil</h1>
-            <button className="popup__close-button">X</button>
-          </header>
-          <form className="form" noValidate="">
-            <div className="form__control">
-              <label className="form__label" htmlFor="name">
-                Nome:
-              </label>
-              <input
-                className="form__input"
-                name="name"
-                id="name"
-                required=""
-              />
-            </div>
-            <div className="form__control">
-              <label className="form__label" htmlFor="about">
-                Sobre:
-              </label>
-              <input
-                className="form__input"
-                id="about"
-                name="job"
-                required=""
-              />
-            </div>
-            <button
-              name="button_submit"
-              className="button button_type_success button_submit"
-            >
-              Salvar
-            </button>
-          </form>
-        </article>
-      </div>
-      <div className="popup popup_add_product">
-        <article className="popup__container popup__container_product">
-          <header className="popup__header">
-            <h1 className="popup__title">Novo Produto</h1>
-            <button className="popup__close-button">X</button>
-          </header>
-          <form className="form">
-            <div className="form__control">
-              <label className="form__label" htmlFor="image">
-                Imagem:
-              </label>
-              <input className="form__input" id="image" />
-            </div>
-            <div className="form__control">
-              <label className="form__label" htmlFor="productName">
-                Nome:
-              </label>
-              <input className="form__input" name="name" id="productName" />
-            </div>
-            <div className="form__control">
-              <label className="form__label" htmlFor="price">
-                Preço:
-              </label>
-              <input className="form__input" id="price" />
-            </div>
-            <button name="button_submit" className="button button_type_success">
-              Salvar
-            </button>
-          </form>
-        </article>
-      </div>
+      <PopupWithForm
+        id="popup_edit_profile"
+        title="Editar Perfil"
+        isOpen={isEditProfilePopupOpen}
+      >
+        <div className="form__control">
+          <label className="form__label" htmlFor="name">
+            Nome:
+          </label>
+          <input className="form__input" name="name" id="name" required="" />
+        </div>
+        <div className="form__control">
+          <label className="form__label" htmlFor="about">
+            Sobre:
+          </label>
+          <input className="form__input" id="about" name="job" required="" />
+        </div>
+      </PopupWithForm>
+      <PopupWithForm id="popup_add_product" title="Novo Produto">
+        <div className="form__control">
+          <label className="form__label" htmlFor="image">
+            Imagem:
+          </label>
+          <input className="form__input" id="image" />
+        </div>
+        <div className="form__control">
+          <label className="form__label" htmlFor="productName">
+            Nome:
+          </label>
+          <input className="form__input" name="name" id="productName" />
+        </div>
+        <div className="form__control">
+          <label className="form__label" htmlFor="price">
+            Preço:
+          </label>
+          <input className="form__input" id="price" />
+        </div>
+      </PopupWithForm>
       <div className="popup popup_image">
         <button className="popup__close-button">X</button>
         <img src="" alt="" className="popup__image" />
