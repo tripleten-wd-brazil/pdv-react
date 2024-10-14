@@ -1,10 +1,18 @@
-export default function PopupWithForm({ id, title, children, isOpen }) {
+export default function PopupWithForm({
+  id,
+  title,
+  children,
+  isOpen,
+  onClose,
+}) {
   return (
     <div className={`popup ${id} ${isOpen ? "popup_opened" : ""}`}>
       <article className="popup__container popup__container_product">
         <header className="popup__header">
           <h1 className="popup__title">{title}</h1>
-          <button className="popup__close-button">X</button>
+          <button className="popup__close-button" onClick={onClose}>
+            X
+          </button>
         </header>
         <form className="form" noValidate="">
           {children}

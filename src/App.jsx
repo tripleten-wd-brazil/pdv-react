@@ -2,14 +2,40 @@ import Navigation from "./components/Navigation";
 import avatarMock from "./images/avatar_mock.png";
 import editIcon from "./images/edit.svg";
 import PopupWithForm from "./components/PopupWithForm";
-import { useState } from "react";
+import Card from "./components/Card";
+import { useState, useEffect } from "react";
+import api from "./utils/api";
 
 function App() {
-  console.log("Hello world");
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
+  // array destructuring
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const [cards, setCards] = useState([]);
 
-  const handleSellerClick = function () {
+  useEffect(() => {
+    api.getUserInfo().then((apiUserInfo) => {
+      setUserInfo(apiUserInfo);
+    });
+  }, []);
+
+  useEffect(() => {
+    api.getProducts().then((apiProducts) => {
+      setCards(apiProducts);
+    });
+  }, []);
+
+  const handleSellerClick = () => {
     setIsEditProfilePopupOpen(true);
+  };
+
+  const handleAddProductClick = () => {
+    setIsProductPopupOpen(true);
+  };
+
+  const closeAllPopups = () => {
+    setIsEditProfilePopupOpen(false);
+    setIsProductPopupOpen(false);
   };
 
   return (
@@ -26,8 +52,8 @@ function App() {
               />
             </figure>
             <div className="seller__data">
-              <h2 className="seller__name" />
-              <h3 className="seller__job" />
+              <h2 className="seller__name">{userInfo.name}</h2>
+              <h3 className="seller__job">{userInfo.job}</h3>
             </div>
             <button className="seller__edit" onClick={handleSellerClick}>
               <img
@@ -40,13 +66,18 @@ function App() {
           </article>
         </div>
         <ul className="products">
-          <template id="product-template" />
+          {cards.map((item) => {
+            return <Card key={item._id} data={item} />;
+          })}
         </ul>
         <div className="cta">
           <button className="button button_type_primary cta_product_edit">
             Editar itens
           </button>
-          <button className="button button_type_success cta_product_add">
+          <button
+            className="button button_type_success cta_product_add"
+            onClick={handleAddProductClick}
+          >
             Adicionar item
           </button>
         </div>
@@ -86,6 +117,7 @@ function App() {
         id="popup_edit_profile"
         title="Editar Perfil"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <div className="form__control">
           <label className="form__label" htmlFor="name">
@@ -100,7 +132,12 @@ function App() {
           <input className="form__input" id="about" name="job" required="" />
         </div>
       </PopupWithForm>
-      <PopupWithForm id="popup_add_product" title="Novo Produto">
+      <PopupWithForm
+        id="popup_add_product"
+        title="Novo Produto"
+        isOpen={isProductPopupOpen}
+        onClose={closeAllPopups}
+      >
         <div className="form__control">
           <label className="form__label" htmlFor="image">
             Imagem:
