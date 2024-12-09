@@ -4,7 +4,13 @@ export default function PopupWithForm({
   children,
   isOpen,
   onClose,
+  onSubmit,
 }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit();
+  };
+
   return (
     <div className={`popup ${id} ${isOpen ? "popup_opened" : ""}`}>
       <article className="popup__container popup__container_product">
@@ -14,7 +20,7 @@ export default function PopupWithForm({
             X
           </button>
         </header>
-        <form className="form" noValidate="">
+        <form className="form" noValidate="" onSubmit={handleSubmit}>
           {children}
           <button
             name="button_submit"

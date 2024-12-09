@@ -5,12 +5,16 @@ import { useState, useEffect } from "react";
 import api from "./utils/api";
 import { CurrentUserContext } from "./contexts/CurrentUserContext";
 import Seller from "./components/Seller";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    job: "",
+  });
 
   useEffect(() => {
     api.getUserInfo().then((apiUserInfo) => {
@@ -23,6 +27,10 @@ function App() {
       setCards(apiProducts);
     });
   }, []);
+
+  const handleEditProfile = (newData) => {
+    api.editProfile(newData).then((newUserInfo) => setCurrentUser(newUserInfo));
+  };
 
   const handleSellerClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -38,7 +46,7 @@ function App() {
   };
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{ currentUser, handleEditProfile }}>
       <div className="page">
         <main className="container">
           <Navigation card={cards} />
@@ -91,25 +99,7 @@ function App() {
             </button>
           </aside>
         </main>
-        <PopupWithForm
-          id="popup_edit_profile"
-          title="Editar Perfil"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <div className="form__control">
-            <label className="form__label" htmlFor="name">
-              Nome:
-            </label>
-            <input className="form__input" name="name" id="name" required="" />
-          </div>
-          <div className="form__control">
-            <label className="form__label" htmlFor="about">
-              Sobre:
-            </label>
-            <input className="form__input" id="about" name="job" required="" />
-          </div>
-        </PopupWithForm>
+        <EditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupWithForm
           id="popup_add_product"
           title="Novo Produto"
